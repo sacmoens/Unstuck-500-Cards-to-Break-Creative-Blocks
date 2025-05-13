@@ -3,252 +3,942 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creative Cards</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>UNSTUCK - 500 Creative Block Breakers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bubblegum+Sans&family=Oswald:wght@700&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --category-1: #FF6B6B; /* Reframe It - Coral */
+            --category-2: #4ECDC4; /* Shake It Up - Teal */
+            --category-3: #45B7D1; /* Step Out - Sky Blue */
+            --category-4: #FFBE0B; /* Mind Stretch - Golden Yellow */
+            --category-5: #A05195; /* Look Differently - Purple */
+            --neon-pink: #FF10F0;
+            --electric-blue: #00F5FF;
+            --lime-green: #00FF7F;
+            --bright-yellow: #FFFF00;
+            --orange: #FFA500;
+            --bg-color: #f8f9fa;
+            --text-dark: #2b2d42;
+            --text-light: #f8f9fa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 20px;
+            font-family: 'Oswald', 'Comic Neue', sans-serif;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--neon-pink), var(--electric-blue), var(--lime-green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 900;
+            font-family: 'Bebas Neue', 'Bubblegum Sans', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: #666;
+            margin-bottom: 20px;
+            font-family: 'Bubblegum Sans', 'Comic Neue', cursive;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        #draw-card {
+            background: linear-gradient(45deg, var(--neon-pink), var(--orange));
+            color: white;
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            border: 2px solid white;
+        }
+        
+        .filter-btn {
+            background-color: white;
+            color: var(--text-dark);
+            border: 2px solid #ddd;
+        }
+        
+        .filter-btn.active {
+            color: white;
+            border-color: transparent;
+        }
+        
+        .filter-btn[data-category="1"].active {
+            background-color: var(--category-1);
+        }
+        
+        .filter-btn[data-category="2"].active {
+            background-color: var(--category-2);
+        }
+        
+        .filter-btn[data-category="3"].active {
+            background-color: var(--category-3);
+        }
+        
+        .filter-btn[data-category="4"].active {
+            background-color: var(--category-4);
+        }
+        
+        .filter-btn[data-category="5"].active {
+            background-color: var(--category-5);
+        }
+        
+        .card-container {
+            max-width: 800px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border: 5px solid white;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: var(--category-1);
+        }
+        
+        .card[data-category="1"]::before {
+            background: var(--category-1);
+        }
+        
+        .card[data-category="2"]::before {
+            background: var(--category-2);
+        }
+        
+        .card[data-category="3"]::before {
+            background: var(--category-3);
+        }
+        
+        .card[data-category="4"]::before {
+            background: var(--category-4);
+        }
+        
+        .card[data-category="5"]::before {
+            background: var(--category-5);
+        }
+        
+        .card-content {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            font-family: 'Bubblegum Sans', 'Comic Neue', cursive;
+        }
+        
+        .card-category {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 8px 20px;
+            border-radius: 50px;
+            color: white;
+            margin-top: 20px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: bold;
+        }
+        
+        .card[data-category="1"] .card-category {
+            background-color: var(--category-1);
+        }
+        
+        .card[data-category="2"] .card-category {
+            background-color: var(--category-2);
+        }
+        
+        .card[data-category="3"] .card-category {
+            background-color: var(--category-3);
+        }
+        
+        .card[data-category="4"] .card-category {
+            background-color: var(--category-4);
+        }
+        
+        .card[data-category="5"] .card-category {
+            background-color: var(--category-5);
+        }
+        
+        .card-number {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 1rem;
+            color: #999;
+            font-family: 'Oswald', sans-serif;
+        }
+        
+        .stats {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.1rem;
+            color: #666;
+            font-family: 'Oswald', sans-serif;
+        }
+        
+        .category-name {
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .card {
+                padding: 30px 20px;
+                min-height: 250px;
+            }
+            
+            .card-content {
+                font-size: 1.6rem;
+            }
+            
+            #draw-card {
+                font-size: 1.2rem;
+                padding: 12px 24px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Creative Cards</h1>
-
-        <!-- Spark Category -->
-        <h2>Spark 🔥</h2>
-        <div class="card-container">
-            <div class="card spark">
-                <div class="card-header">
-                    <span class="card-icon">🔥</span>
-                    <span class="card-category">Spark</span>
-                </div>
-                <div class="card-prompt">What’s the wildest idea you can think of right now?</div>
-                <div class="card-subtext">Don’t hold back—go big!</div>
-            </div>
-            <div class="card spark">
-                <div class="card-header">
-                    <span class="card-icon">🔥</span>
-                    <span class="card-category">Spark</span>
-                </div>
-                <div class="card-prompt">If you had infinite money, how would you start this project?</div>
-                <div class="card-subtext">Dream without limits.</div>
-            </div>
-            <div class="card spark">
-                <div class="card-header">
-                    <span class="card-icon">🔥</span>
-                    <span class="card-category">Spark</span>
-                </div>
-                <div class="card-prompt">What’s a problem you’re dying to solve?</div>
-                <div class="card-subtext">Focus on what excites you.</div>
-            </div>
-            <div class="card spark">
-                <div class="card-header">
-                    <span class="card-icon">🔥</span>
-                    <span class="card-category">Spark</span>
-                </div>
-                <div class="card-prompt">What idea keeps you up at night?</div>
-                <div class="card-subtext">Tap into your obsession.</div>
-            </div>
-            <div class="card spark">
-                <div class="card-header">
-                    <span class="card-icon">🔥</span>
-                    <span class="card-category">Spark</span>
-                </div>
-                <div class="card-prompt">If your idea were a movie, what’s the opening scene?</div>
-                <div class="card-subtext">Set the stage.</div>
-            </div>
-            <!-- Placeholder for remaining Spark cards (95 more) -->
-            <!-- I'll include a few more to show the pattern, then summarize -->
-            <div class="card spark">
-                <div class="card-header">
-                    <span class="card-icon">🔥</span>
-                    <span class="card-category">Spark</span>
-                </div>
-                <div class="card-prompt">What’s the most ridiculous solution you can imagine?</div>
-                <div class="card-subtext">Humor can spark brilliance.</div>
-            </div>
-            <!-- ... 94 more Spark cards would follow in this format ... -->
-        </div>
-
-        <!-- Deep Dive Category -->
-        <h2>Deep Dive 🪸</h2>
-        <div class="card-container">
-            <div class="card deep-dive">
-                <div class="card-header">
-                    <span class="card-icon">🪸</span>
-                    <span class="card-category">Deep Dive</span>
-                </div>
-                <div class="card-prompt">What’s the core essence of your idea?</div>
-                <div class="card-subtext">Strip it to its roots.</div>
-            </div>
-            <div class="card deep-dive">
-                <div class="card-header">
-                    <span class="card-icon">🪸</span>
-                    <span class="card-category">Deep Dive</span>
-                </div>
-                <div class="card-prompt">Who does your project impact most?</div>
-                <div class="card-subtext">Understand your audience.</div>
-            </div>
-            <div class="card deep-dive">
-                <div class="card-header">
-                    <span class="card-icon">🪸</span>
-                    <span class="card-category">Deep Dive</span>
-                </div>
-                <div class="card-prompt">What’s the biggest risk in your idea?</div>
-                <div class="card-subtext">Face the challenges head-on.</div>
-            </div>
-            <div class="card deep-dive">
-                <div class="card-header">
-                    <span class="card-icon">🪸</span>
-                    <span class="card-category">Deep Dive</span>
-                </div>
-                <div class="card-prompt">How does your idea evolve over 10 years?</div>
-                <div class="card-subtext">Think long-term.</div>
-            </div>
-            <div class="card deep-dive">
-                <div class="card-header">
-                    <span class="card-icon">🪸</span>
-                    <span class="card-category">Deep Dive</span>
-                </div>
-                <div class="card-prompt">What’s the emotional core of your project?</div>
-                <div class="card-subtext">Connect on a human level.</div>
-            </div>
-            <!-- ... 95 more Deep Dive cards ... -->
-        </div>
-
-        <!-- Shake It Up Category -->
-        <h2>Shake It Up 🔄</h2>
-        <div class="card-container">
-            <div class="card shake-it-up">
-                <div class="card-header">
-                    <span class="card-icon">🔄</span>
-                    <span class="card-category">Shake It Up</span>
-                </div>
-                <div class="card-prompt">Swap the main elements of your idea—what happens?</div>
-                <div class="card-subtext">Reverse for a fresh take.</div>
-            </div>
-            <div class="card shake-it-up">
-                <div class="card-header">
-                    <span class="card-icon">🔄</span>
-                    <span class="card-category">Shake It Up</span>
-                </div>
-                <div class="card-prompt">What if your project failed spectacularly—then what?</div>
-                <div class="card-subtext">Learn from the wreckage.</div>
-            </div>
-            <div class="card shake-it-up">
-                <div class="card-header">
-                    <span class="card-icon">🔄</span>
-                    <span class="card-category">Shake It Up</span>
-                </div>
-                <div class="card-prompt">Combine your idea with something totally unrelated.</div>
-                <div class="card-subtext">Mix for unexpected results.</div>
-            </div>
-            <div class="card shake-it-up">
-                <div class="card-header">
-                    <span class="card-icon">🔄</span>
-                    <span class="card-category">Shake It Up</span>
-                </div>
-                <div class="card-prompt">Change one key detail—how does it shift?</div>
-                <div class="card-subtext">Tweak to transform.</div>
-            </div>
-            <div class="card shake-it-up">
-                <div class="card-header">
-                    <span class="card-icon">🔄</span>
-                    <span class="card-category">Shake It Up</span>
-                </div>
-                <div class="card-prompt">What if your idea was the opposite of what it is now?</div>
-                <div class="card-subtext">Flip it completely.</div>
-            </div>
-            <!-- ... 95 more Shake It Up cards ... -->
-        </div>
-
-        <!-- Mind Stretch Category -->
-        <h2>Mind Stretch 💡</h2>
-        <div class="card-container">
-            <div class="card mind-stretch">
-                <div class="card-header">
-                    <span class="card-icon">💡</span>
-                    <span class="card-category">Mind Stretch</span>
-                </div>
-                <div class="card-prompt">List 10 terrible ideas. Pick one to make awesome.</div>
-                <div class="card-subtext">Bad ideas can lead to brilliance.</div>
-            </div>
-            <div class="card mind-stretch">
-                <div class="card-header">
-                    <span class="card-icon">💡</span>
-                    <span class="card-category">Mind Stretch</span>
-                </div>
-                <div class="card-prompt">Use a metaphor to describe your project.</div>
-                <div class="card-subtext">See it in a new light.</div>
-            </div>
-            <div class="card mind-stretch">
-                <div class="card-header">
-                    <span class="card-icon">💡</span>
-                    <span class="card-category">Mind Stretch</span>
-                </div>
-                <div class="card-prompt">Think of how a child would solve this.</div>
-                <div class="card-subtext">Simplify with a fresh perspective.</div>
-            </div>
-            <div class="card mind-stretch">
-                <div class="card-header">
-                    <span class="card-icon">💡</span>
-                    <span class="card-category">Mind Stretch</span>
-                </div>
-                <div class="card-prompt">What would an inventor from 100 years ago say about your idea?</div>
-                <div class="card-subtext">Step back in time for insight.</div>
-            </div>
-            <div class="card mind-stretch">
-                <div class="card-header">
-                    <span class="card-icon">💡</span>
-                    <span class="card-category">Mind Stretch</span>
-                </div>
-                <div class="card-prompt">Imagine your idea as a plant. What does it need to grow?</div>
-                <div class="card-subtext">Nurture it like a living thing.</div>
-            </div>
-            <!-- ... 95 more Mind Stretch cards ... -->
-        </div>
-
-        <!-- Look Differently Category -->
-        <h2>Look Differently 👁️</h2>
-        <div class="card-container">
-            <div class="card look-differently">
-                <div class="card-header">
-                    <span class="card-icon">👁️</span>
-                    <span class="card-category">Look Differently</span>
-                </div>
-                <div class="card-prompt">Imagine your project through a toddler’s eyes.</div>
-                <div class="card-subtext">See it with wonder and simplicity.</div>
-            </div>
-            <div class="card look-differently">
-                <div class="card-header">
-                    <span class="card-icon">👁️</span>
-                    <span class="card-category">Look Differently</span>
-                </div>
-                <div class="card-prompt">What would an alien think of your idea?</div>
-                <div class="card-subtext">View it from another world.</div>
-            </div>
-            <div class="card look-differently">
-                <div class="card-header">
-                    <span class="card-icon">👁️</span>
-                    <span class="card-category">Look Differently</span>
-                </div>
-                <div class="card-prompt">Describe your project as if it’s a smell.</div>
-                <div class="card-subtext">Sniff out its essence.</div>
-            </div>
-            <div class="card look-differently">
-                <div class="card-header">
-                    <span class="card-icon">👁️</span>
-                    <span class="card-category">Look Differently</span>
-                </div>
-                <div class="card-prompt">How would your idea look in the 1800s?</div>
-                <div class="card-subtext">Step back in history.</div>
-            </div>
-            <div class="card look-differently">
-                <div class="card-header">
-                    <span class="card-icon">👁️</span>
-                    <span class="card-category">Look Differently</span>
-                </div>
-                <div class="card-prompt">What if your project was upside down—how does it change?</div>
-                <div class="card-subtext">Flip your perspective.</div>
-            </div>
-            <!-- ... 95 more Look Differently cards ... -->
+    <header>
+        <h1>UNSTUCK</h1>
+        <p class="subtitle">500 cards to overcome creative blocks</p>
+    </header>
+    
+    <div class="controls">
+        <button id="draw-card">Draw Card</button>
+        <button class="filter-btn active" data-category="all">All Categories</button>
+        <button class="filter-btn" data-category="1">Reframe It</button>
+        <button class="filter-btn" data-category="2">Shake It Up</button>
+        <button class="filter-btn" data-category="3">Step Out</button>
+        <button class="filter-btn" data-category="4">Mind Stretch</button>
+        <button class="filter-btn" data-category="5">Look Differently</button>
+    </div>
+    
+    <div class="card-container">
+        <div class="card" style="display: none;">
+            <div class="card-content">Click "Draw Card" to begin</div>
+            <div class="card-category">UNSTUCK</div>
+            <div class="card-number">#0/500</div>
         </div>
     </div>
+    
+    <div class="stats">
+        Cards remaining: <span id="remaining-count">500</span> | 
+        Cards drawn: <span id="drawn-count">0</span>
+    </div>
+    
+    <script>
+        // All 500 cards organized by category
+        const allCards = [
+            // Category 1: Reframe It (100 cards)
+            { id: 1, text: "What if this problem is a feature, not a flaw?", category: 1 },
+            { id: 2, text: "Describe your idea as a villain. What's its strength?", category: 1 },
+            { id: 3, text: "What's the opposite of your idea? Can you use it?", category: 1 },
+            { id: 4, text: "What advice would your future self give you?", category: 1 },
+            { id: 5, text: "If you had to make this worse, how would you do it?", category: 1 },
+            { id: 6, text: "What would you do if you had only 10 minutes?", category: 1 },
+            { id: 7, text: "Imagine you already finished this. What surprised you most?", category: 1 },
+            { id: 8, text: "What would this look like as a joke?", category: 1 },
+            { id: 9, text: "Turn your idea into a meme. What's the punchline?", category: 1 },
+            { id: 10, text: "If this were a dance move, how would it flow?", category: 1 },
+            { id: 11, text: "What if your idea was a gift—how would you wrap it?", category: 1 },
+            { id: 12, text: "How would a comedian approach this problem?", category: 1 },
+            { id: 13, text: "What if your project had to be free—how would it work?", category: 1 },
+            { id: 14, text: "Imagine your idea as a treasure hunt. What's the prize?", category: 1 },
+            { id: 15, text: "What would your biggest fan say about this project?", category: 1 },
+            { id: 16, text: "How would you pitch this to a skeptic?", category: 1 },
+            { id: 17, text: "What if your idea was a secret—how would you reveal it?", category: 1 },
+            { id: 18, text: "Describe your project as a weather phenomenon.", category: 1 },
+            { id: 19, text: "What if you had unlimited resources—what changes?", category: 1 },
+            { id: 20, text: "How would your idea look as a children's book?", category: 1 },
+            { id: 21, text: "What if your project was a fashion statement?", category: 1 },
+            { id: 22, text: "Imagine your idea as a conversation—what's the tone?", category: 1 },
+            { id: 23, text: "What would your idea look like in black and white?", category: 1 },
+            { id: 24, text: "How would you describe this to someone from the future?", category: 1 },
+            { id: 25, text: "What if your idea was a magic spell—what does it do?", category: 1 },
+            { id: 26, text: "Imagine your project as a holiday celebration.", category: 1 },
+            { id: 27, text: "What if your idea was a riddle—how would it read?", category: 1 },
+            { id: 28, text: "How would your idea fit into a sci-fi universe?", category: 1 },
+            { id: 29, text: "What if your project was a piece of candy—what flavor?", category: 1 },
+            { id: 30, text: "Describe your idea as a superhero power.", category: 1 },
+            { id: 31, text: "What if your idea was a board game—what's the goal?", category: 1 },
+            { id: 32, text: "How would your project look as a piece of jewelry?", category: 1 },
+            { id: 33, text: "What if your idea was a dream—what's the weirdest part?", category: 1 },
+            { id: 34, text: "Imagine your project as a festival—what's the vibe?", category: 1 },
+            { id: 35, text: "What if your idea was a time capsule—what's inside?", category: 1 },
+            { id: 36, text: "How would your idea look as a mural?", category: 1 },
+            { id: 37, text: "What if your project was a song—what's the genre?", category: 1 },
+            { id: 38, text: "Describe your idea as a mythical creature.", category: 1 },
+            { id: 39, text: "What if your idea was a recipe—what's the main ingredient?", category: 1 },
+            { id: 40, text: "How would your project look as a parade float?", category: 1 },
+            { id: 41, text: "What if your idea was a planet—what's its atmosphere?", category: 1 },
+            { id: 42, text: "Imagine your project as a historical event.", category: 1 },
+            { id: 43, text: "What if your idea was a potion—what does it heal?", category: 1 },
+            { id: 44, text: "How would your idea look as a tattoo?", category: 1 },
+            { id: 45, text: "What if your project was a movie trailer—what's the hook?", category: 1 },
+            { id: 46, text: "Describe your idea as a constellation.", category: 1 },
+            { id: 47, text: "What if your idea was a party theme—what's the dress code?", category: 1 },
+            { id: 48, text: "How would your project look as a stained glass window?", category: 1 },
+            { id: 49, text: "What if your idea was a rumor—what's the twist?", category: 1 },
+            { id: 50, text: "Imagine your project as a circus act.", category: 1 },
+            { id: 51, text: "What if your idea was a currency—what's its value?", category: 1 },
+            { id: 52, text: "How would your idea look as a comic strip?", category: 1 },
+            { id: 53, text: "What if your project was a fragrance—what's the scent?", category: 1 },
+            { id: 54, text: "Describe your idea as a natural disaster.", category: 1 },
+            { id: 55, text: "What if your idea was a puzzle—what's the solution?", category: 1 },
+            { id: 56, text: "How would your project look as a carnival ride?", category: 1 },
+            { id: 57, text: "What if your idea was a prophecy—what does it predict?", category: 1 },
+            { id: 58, text: "Imagine your project as a secret society.", category: 1 },
+            { id: 59, text: "What if your idea was a map—what's the destination?", category: 1 },
+            { id: 60, text: "How would your idea look as a graffiti tag?", category: 1 },
+            { id: 61, text: "What if your project was a fairy tale—what's the moral?", category: 1 },
+            { id: 62, text: "Describe your idea as a piece of architecture.", category: 1 },
+            { id: 63, text: "What if your idea was a weather forecast—what's coming?", category: 1 },
+            { id: 64, text: "How would your project look as a piece of origami?", category: 1 },
+            { id: 65, text: "What if your idea was a conspiracy theory—what's the evidence?", category: 1 },
+            { id: 66, text: "Imagine your project as a sporting event.", category: 1 },
+            { id: 67, text: "What if your idea was a cocktail—what's the garnish?", category: 1 },
+            { id: 68, text: "How would your idea look as a protest sign?", category: 1 },
+            { id: 69, text: "What if your project was a myth—what's the legend?", category: 1 },
+            { id: 70, text: "Describe your idea as a piece of candy art.", category: 1 },
+            { id: 71, text: "What if your idea was a constellation story—what's the tale?", category: 1 },
+            { id: 72, text: "How would your project look as a neon sign?", category: 1 },
+            { id: 73, text: "What if your idea was a radio show—what's the topic?", category: 1 },
+            { id: 74, text: "Imagine your project as a magic trick.", category: 1 },
+            { id: 75, text: "What if your idea was a fortune cookie message?", category: 1 },
+            { id: 76, text: "How would your idea look as a billboard?", category: 1 },
+            { id: 77, text: "What if your project was a time travel device—where does it go?", category: 1 },
+            { id: 78, text: "Describe your idea as a piece of street art.", category: 1 },
+            { id: 79, text: "What if your idea was a dance party—what's the playlist?", category: 1 },
+            { id: 80, text: "How would your project look as a firework display?", category: 1 },
+            { id: 81, text: "What if your idea was a riddle book—what's the hardest riddle?", category: 1 },
+            { id: 82, text: "Imagine your project as a masquerade ball.", category: 1 },
+            { id: 83, text: "What if your idea was a viral challenge—what's the hashtag?", category: 1 },
+            { id: 84, text: "How would your idea look as a pop-up book?", category: 1 },
+            { id: 85, text: "What if your project was a space mission—what's the goal?", category: 1 },
+            { id: 86, text: "Describe your idea as a piece of pottery.", category: 1 },
+            { id: 87, text: "What if your idea was a reality TV show—what's the drama?", category: 1 },
+            { id: 88, text: "How would your project look as a sandcastle?", category: 1 },
+            { id: 89, text: "What if your idea was a prophecy scroll—what's written?", category: 1 },
+            { id: 90, text: "Imagine your project as a parade.", category: 1 },
+            { id: 91, text: "What if your idea was a toy—what's its feature?", category: 1 },
+            { id: 92, text: "How would your idea look as a stained glass mosaic?", category: 1 },
+            { id: 93, text: "What if your project was a carnival game—what's the prize?", category: 1 },
+            { id: 94, text: "Describe your idea as a piece of folklore.", category: 1 },
+            { id: 95, text: "What if your idea was a hologram—what does it show?", category: 1 },
+            { id: 96, text: "How would your project look as a kite design?", category: 1 },
+            { id: 97, text: "What if your idea was a secret code—what's the message?", category: 1 },
+            { id: 98, text: "Imagine your project as a themed restaurant.", category: 1 },
+            { id: 99, text: "What if your idea was a cosmic event—what's the impact?", category: 1 },
+            { id: 100, text: "How would your idea look as a festival booth?", category: 1 },
+            
+            // Category 2: Shake It Up (100 cards)
+            { id: 101, text: "Write/draw with your non-dominant hand for 5 minutes.", category: 2 },
+            { id: 102, text: "Pick 3 random objects near you. Combine them into an idea.", category: 2 },
+            { id: 103, text: "Use a random emoji as inspiration.", category: 2 },
+            { id: 104, text: "Set a timer for 2 minutes. Create something ugly—on purpose.", category: 2 },
+            { id: 105, text: "Turn off all digital devices. Make something analog.", category: 2 },
+            { id: 106, text: "Describe your idea using only 7 words.", category: 2 },
+            { id: 107, text: "Invent a new rule for your medium—and break it.", category: 2 },
+            { id: 108, text: "Make something without using your main skill.", category: 2 },
+            { id: 109, text: "Mash up two unrelated ideas from your day.", category: 2 },
+            { id: 110, text: "Add one wild, unnecessary feature to your project.", category: 2 },
+            { id: 111, text: "Create something using only one color.", category: 2 },
+            { id: 112, text: "Swap the first and last steps of your process.", category: 2 },
+            { id: 113, text: "Use a random song lyric as your project's theme.", category: 2 },
+            { id: 114, text: "Make a 10-second video pitch for your idea.", category: 2 },
+            { id: 115, text: "Draw your idea as a cartoon character.", category: 2 },
+            { id: 116, text: "Create a project using only paper and tape.", category: 2 },
+            { id: 117, text: "Use the first word you hear as your project's title.", category: 2 },
+            { id: 118, text: "Make something inspired by a childhood game.", category: 2 },
+            { id: 119, text: "Combine your idea with a random holiday.", category: 2 },
+            { id: 120, text: "Create a project without looking at your work.", category: 2 },
+            { id: 121, text: "Use a coin flip to decide each creative choice.", category: 2 },
+            { id: 122, text: "Make something inspired by a smell in the room.", category: 2 },
+            { id: 123, text: "Create a project using only 5 straight lines.", category: 2 },
+            { id: 124, text: "Use a random quote as your project's tagline.", category: 2 },
+            { id: 125, text: "Make something inspired by the weather today.", category: 2 },
+            { id: 126, text: "Create a project without using any tools.", category: 2 },
+            { id: 127, text: "Use a random number (1–10) to decide your color palette.", category: 2 },
+            { id: 128, text: "Make something inspired by a texture you touch.", category: 2 },
+            { id: 129, text: "Create a project in complete silence.", category: 2 },
+            { id: 130, text: "Use a random book title as your project's theme.", category: 2 },
+            { id: 131, text: "Make something inspired by a shadow you see.", category: 2 },
+            { id: 132, text: "Create a project using only circles.", category: 2 },
+            { id: 133, text: "Use a random adjective to describe your idea.", category: 2 },
+            { id: 134, text: "Make something inspired by a food you ate today.", category: 2 },
+            { id: 135, text: "Create a project with your eyes closed.", category: 2 },
+            { id: 136, text: "Use a random animal as your project's mascot.", category: 2 },
+            { id: 137, text: "Make something inspired by a pattern you see.", category: 2 },
+            { id: 138, text: "Create a project using only 3 colors.", category: 2 },
+            { id: 139, text: "Use a random verb to start your project.", category: 2 },
+            { id: 140, text: "Make something inspired by a sound you hear.", category: 2 },
+            { id: 141, text: "Create a project using only your least favorite color.", category: 2 },
+            { id: 142, text: "Use a random movie title as your project's theme.", category: 2 },
+            { id: 143, text: "Make something inspired by a piece of clothing.", category: 2 },
+            { id: 144, text: "Create a project using only squares.", category: 2 },
+            { id: 145, text: "Use a random noun as your project's centerpiece.", category: 2 },
+            { id: 146, text: "Make something inspired by a memory from last week.", category: 2 },
+            { id: 147, text: "Create a project without using your hands.", category: 2 },
+            { id: 148, text: "Use a random shape as your project's foundation.", category: 2 },
+            { id: 149, text: "Make something inspired by a conversation you had.", category: 2 },
+            { id: 150, text: "Create a project using only 2 materials.", category: 2 },
+            { id: 151, text: "Use a random emotion to guide your project.", category: 2 },
+            { id: 152, text: "Make something inspired by a cloud shape.", category: 2 },
+            { id: 153, text: "Create a project using only triangles.", category: 2 },
+            { id: 154, text: "Use a random historical figure as your muse.", category: 2 },
+            { id: 155, text: "Make something inspired by a plant you see.", category: 2 },
+            { id: 156, text: "Create a project in 60 seconds.", category: 2 },
+            { id: 157, text: "Use a random object's color as your palette.", category: 2 },
+            { id: 158, text: "Make something inspired by a dream you had.", category: 2 },
+            { id: 159, text: "Create a project using only one hand.", category: 2 },
+            { id: 160, text: "Use a random word from a book as your theme.", category: 2 },
+            { id: 161, text: "Make something inspired by a piece of furniture.", category: 2 },
+            { id: 162, text: "Create a project using only dots.", category: 2 },
+            { id: 163, text: "Use a random song title as your project's vibe.", category: 2 },
+            { id: 164, text: "Make something inspired by a scent you imagine.", category: 2 },
+            { id: 165, text: "Create a project without using color.", category: 2 },
+            { id: 166, text: "Use a random letter to start every idea.", category: 2 },
+            { id: 167, text: "Make something inspired by a piece of art you know.", category: 2 },
+            { id: 168, text: "Create a project using only curves.", category: 2 },
+            { id: 169, text: "Use a random time of day as your theme.", category: 2 },
+            { id: 170, text: "Make something inspired by a toy you loved.", category: 2 },
+            { id: 171, text: "Create a project in the dark.", category: 2 },
+            { id: 172, text: "Use a random number to decide your project's steps.", category: 2 },
+            { id: 173, text: "Make something inspired by a street sign.", category: 2 },
+            { id: 174, text: "Create a project using only one shape.", category: 2 },
+            { id: 175, text: "Use a random phrase you hear as your title.", category: 2 },
+            { id: 176, text: "Make something inspired by a piece of jewelry.", category: 2 },
+            { id: 177, text: "Create a project without planning.", category: 2 },
+            { id: 178, text: "Use a random color to dominate your project.", category: 2 },
+            { id: 179, text: "Make something inspired by a movie scene.", category: 2 },
+            { id: 180, text: "Create a project using only your voice.", category: 2 },
+            { id: 181, text: "Use a random adjective to define your style.", category: 2 },
+            { id: 182, text: "Make something inspired by a piece of nature.", category: 2 },
+            { id: 183, text: "Create a project using only 10 strokes.", category: 2 },
+            { id: 184, text: "Use a random event as your project's theme.", category: 2 },
+            { id: 185, text: "Make something inspired by a hobby you have.", category: 2 },
+            { id: 186, text: "Create a project without thinking.", category: 2 },
+            { id: 187, text: "Use a random object as your canvas.", category: 2 },
+            { id: 188, text: "Make something inspired by a cultural tradition.", category: 2 },
+            { id: 189, text: "Create a project using only your feet.", category: 2 },
+            { id: 190, text: "Use a random memory as your inspiration.", category: 2 },
+            { id: 191, text: "Make something inspired by a piece of technology.", category: 2 },
+            { id: 192, text: "Create a project in reverse order.", category: 2 },
+            { id: 193, text: "Use a random sound to set the mood.", category: 2 },
+            { id: 194, text: "Make something inspired by a historical era.", category: 2 },
+            { id: 195, text: "Create a project using only your imagination.", category: 2 },
+            { id: 196, text: "Use a random word from a song as your focus.", category: 2 },
+            { id: 197, text: "Make something inspired by a piece of history.", category: 2 },
+            { id: 198, text: "Create a project using only one tool.", category: 2 },
+            { id: 199, text: "Use a random feeling to guide your work.", category: 2 },
+            { id: 200, text: "Make something inspired by a random photo.", category: 2 },
+            
+            // Category 3: Step Out (100 cards)
+            { id: 201, text: "Go outside. Take a photo of the most boring thing. Make it poetic.", category: 3 },
+            { id: 202, text: "Ask a friend for a one-word suggestion. Use it.", category: 3 },
+            { id: 203, text: "Take a break. Then draw/write your last dream.", category: 3 },
+            { id: 204, text: "Visit a site like Wikipedia. Use the first sentence on a random article as a jumping-off point.", category: 3 },
+            { id: 205, text: "Move your body—stretch, jump, dance—and then sketch/create immediately.", category: 3 },
+            { id: 206, text: "Watch a 30-second clip of a random ad. Now respond to it with art or a business pitch.", category: 3 },
+            { id: 207, text: "Open your notes app. Pick a forgotten note and build on it.", category: 3 },
+            { id: 208, text: "Find a shadow. Turn it into a new idea.", category: 3 },
+            { id: 209, text: "Use the sounds around you to inspire rhythm or dialogue.", category: 3 },
+            { id: 210, text: "Describe your day as if it's a heist film.", category: 3 },
+            { id: 211, text: "Walk backward for 1 minute—then create something.", category: 3 },
+            { id: 212, text: "Find a leaf. Use its shape in your next design.", category: 3 },
+            { id: 213, text: "Call a family member. Ask for a story to inspire you.", category: 3 },
+            { id: 214, text: "Look at the sky. Describe your idea as a cloud.", category: 3 },
+            { id: 215, text: "Visit a local shop. Sketch something you see.", category: 3 },
+            { id: 216, text: "Spin around 3 times—then start creating.", category: 3 },
+            { id: 217, text: "Find a crack in the ground. Turn it into a story.", category: 3 },
+            { id: 218, text: "Ask a stranger for a random word. Use it.", category: 3 },
+            { id: 219, text: "Look out a window. Draw the first thing you see.", category: 3 },
+            { id: 220, text: "Take a 5-minute walk. Create based on a smell.", category: 3 },
+            { id: 221, text: "Visit a random blog. Use the first image as inspiration.", category: 3 },
+            { id: 222, text: "Stand on one leg for 30 seconds—then sketch.", category: 3 },
+            { id: 223, text: "Find a piece of trash. Make it the hero of your idea.", category: 3 },
+            { id: 224, text: "Ask someone for their favorite color. Use it.", category: 3 },
+            { id: 225, text: "Look at a tree. Imagine its life story—create from that.", category: 3 },
+            { id: 226, text: "Visit a news site. Use the first headline as a prompt.", category: 3 },
+            { id: 227, text: "Jump 10 times—then write a short poem.", category: 3 },
+            { id: 228, text: "Find a reflection. Turn it into a concept.", category: 3 },
+            { id: 229, text: "Ask someone for a memory. Build on it.", category: 3 },
+            { id: 230, text: "Look at a wall. Imagine it's a canvas—what's on it?", category: 3 },
+            { id: 231, text: "Visit a social media feed. Use the first post as a spark.", category: 3 },
+            { id: 232, text: "Touch something cold—create based on that feeling.", category: 3 },
+            { id: 233, text: "Find a rock. Describe it as a character.", category: 3 },
+            { id: 234, text: "Ask someone for a song recommendation. Create to its vibe.", category: 3 },
+            { id: 235, text: "Look at the ground. Turn a pattern into a design.", category: 3 },
+            { id: 236, text: "Visit a random website. Use the first word you see.", category: 3 },
+            { id: 237, text: "Clap your hands 5 times—then start drawing.", category: 3 },
+            { id: 238, text: "Find a piece of fabric. Turn its texture into an idea.", category: 3 },
+            { id: 239, text: "Ask someone for a place they love. Create based on it.", category: 3 },
+            { id: 240, text: "Look at a door. Imagine where it leads—create from that.", category: 3 },
+            { id: 241, text: "Visit a random podcast. Use the episode title as a prompt.", category: 3 },
+            { id: 242, text: "Run in place for 30 seconds—then sketch your energy.", category: 3 },
+            { id: 243, text: "Find a piece of paper. Turn its creases into a map.", category: 3 },
+            { id: 244, text: "Ask someone for a food they like. Create its flavor in art.", category: 3 },
+            { id: 245, text: "Look at a ceiling. Imagine it's a sky—what's in it?", category: 3 },
+            { id: 246, text: "Visit a random article. Use the first quote as a spark.", category: 3 },
+            { id: 247, text: "Touch something soft—create based on that sensation.", category: 3 },
+            { id: 248, text: "Find a blade of grass. Turn it into a character.", category: 3 },
+            { id: 249, text: "Ask someone for a movie they love. Create its sequel.", category: 3 },
+            { id: 250, text: "Look at a shadow. Imagine it's alive—what does it do?", category: 3 },
+            { id: 251, text: "Visit a random Instagram post. Use the caption as a prompt.", category: 3 },
+            { id: 252, text: "Stretch your arms—then draw your movement.", category: 3 },
+            { id: 253, text: "Find a piece of string. Turn it into a storyline.", category: 3 },
+            { id: 254, text: "Ask someone for a dream they had. Create from it.", category: 3 },
+            { id: 255, text: "Look at a piece of furniture. Turn it into a metaphor.", category: 3 },
+            { id: 256, text: "Visit a random tweet on X. Use it as inspiration.", category: 3 },
+            { id: 257, text: "Touch something rough—create based on that texture.", category: 3 },
+            { id: 258, text: "Find a leaf. Turn its veins into a city map.", category: 3 },
+            { id: 259, text: "Ask someone for a book they read. Create its cover.", category: 3 },
+            { id: 260, text: "Look at a window frame. Turn it into a portal.", category: 3 },
+            { id: 261, text: "Visit a random subreddit. Use the top post as a spark.", category: 3 },
+            { id: 262, text: "Shake your hands—then draw the motion.", category: 3 },
+            { id: 263, text: "Find a piece of dirt. Turn it into a treasure.", category: 3 },
+            { id: 264, text: "Ask someone for a place they've been. Create its vibe.", category: 3 },
+            { id: 265, text: "Look at a plant. Imagine its thoughts—create from that.", category: 3 },
+            { id: 266, text: "Visit a random news headline. Turn it into a story.", category: 3 },
+            { id: 267, text: "Touch something warm—create based on that feeling.", category: 3 },
+            { id: 268, text: "Find a pebble. Turn it into a planet.", category: 3 },
+            { id: 269, text: "Ask someone for a game they played. Create its world.", category: 3 },
+            { id: 270, text: "Look at a wall texture. Turn it into a pattern.", category: 3 },
+            { id: 271, text: "Visit a random blog post. Use the first sentence as a prompt.", category: 3 },
+            { id: 272, text: "Spin in a circle—then draw your dizziness.", category: 3 },
+            { id: 273, text: "Find a piece of bark. Turn it into a character.", category: 3 },
+            { id: 274, text: "Ask someone for a smell they love. Create its essence.", category: 3 },
+            { id: 275, text: "Look at a light reflection. Turn it into a story.", category: 3 },
+            { id: 276, text: "Visit a random Wikipedia page. Use the first fact as a spark.", category: 3 },
+            { id: 277, text: "Touch something smooth—create based on that sensation.", category: 3 },
+            { id: 278, text: "Find a twig. Turn it into a magic wand.", category: 3 },
+            { id: 279, text: "Ask someone for a holiday memory. Create its scene.", category: 3 },
+            { id: 280, text: "Look at a piece of trash. Turn it into art.", category: 3 },
+            { id: 281, text: "Visit a random quote site. Use the first quote as a prompt.", category: 3 },
+            { id: 282, text: "Jump up and down—then draw your energy.", category: 3 },
+            { id: 283, text: "Find a piece of sand. Turn it into a desert tale.", category: 3 },
+            { id: 284, text: "Ask someone for a song lyric. Create its visuals.", category: 3 },
+            { id: 285, text: "Look at a piece of glass. Turn it into a prophecy.", category: 3 },
+            { id: 286, text: "Visit a random article. Use the first image as inspiration.", category: 3 },
+            { id: 287, text: "Touch something wet—create based on that feeling.", category: 3 },
+            { id: 288, text: "Find a feather. Turn it into a character.", category: 3 },
+            { id: 289, text: "Ask someone for a place they want to visit. Create its vibe.", category: 3 },
+            { id: 290, text: "Look at a crack in a wall. Turn it into a story.", category: 3 },
+            { id: 291, text: "Visit a random video. Use the first scene as a prompt.", category: 3 },
+            { id: 292, text: "Stretch your legs—then draw your movement.", category: 3 },
+            { id: 293, text: "Find a piece of metal. Turn it into a futuristic idea.", category: 3 },
+            { id: 294, text: "Ask someone for a smell they hate. Create its opposite.", category: 3 },
+            { id: 295, text: "Look at a piece of nature. Turn it into a song.", category: 3 },
+            { id: 296, text: "Visit a random news site. Use the first image as inspiration.", category: 3 },
+            { id: 297, text: "Touch something sticky—create based on that sensation.", category: 3 },
+            { id: 298, text: "Find a piece of wood. Turn its grain into a story.", category: 3 },
+            { id: 299, text: "Ask someone for a texture they love. Create its essence.", category: 3 },
+            { id: 300, text: "Look at a puddle. Imagine what's beneath—create from that.", category: 3 },
+            
+            // Category 4: Mind Stretch (100 cards)
+            { id: 301, text: "List 10 terrible ideas. Pick one to make awesome.", category: 4 },
+            { id: 302, text: "Use a metaphor to describe your project.", category: 4 },
+            { id: 303, text: "Think of how a child would solve this.", category: 4 },
+            { id: 304, text: "What would an inventor from 100 years ago say about your idea?", category: 4 },
+            { id: 305, text: "Imagine your idea as a plant. What does it need to grow?", category: 4 },
+            { id: 306, text: "Set absurd limitations (e.g., only triangles, or no text). Now create.", category: 4 },
+            { id: 307, text: "How could this idea make people cry? Or laugh?", category: 4 },
+            { id: 308, text: "Reimagine your project as a mobile app. What would it do?", category: 4 },
+            { id: 309, text: "Combine your idea with your favorite movie scene.", category: 4 },
+            { id: 310, text: "Give your idea a name that's wildly inappropriate. How does that change it?", category: 4 },
+            { id: 311, text: "What if your idea was a board game—how would it play?", category: 4 },
+            { id: 312, text: "Imagine your project as a time machine. Where does it go?", category: 4 },
+            { id: 313, text: "How would a scientist approach your creative block?", category: 4 },
+            { id: 314, text: "Turn your idea into a haiku poem.", category: 4 },
+            { id: 315, text: "What if your project had to fit in a shoebox?", category: 4 },
+            { id: 316, text: "Imagine your idea as a cloud—what kind is it?", category: 4 },
+            { id: 317, text: "How would a detective solve your creative problem?", category: 4 },
+            { id: 318, text: "Turn your project into a riddle—what's the answer?", category: 4 },
+            { id: 319, text: "What if your idea was a currency—what's its symbol?", category: 4 },
+            { id: 320, text: "Imagine your project as a dessert—what's the topping?", category: 4 },
+            { id: 321, text: "How would a poet describe your idea?", category: 4 },
+            { id: 322, text: "Turn your idea into a math equation—what solves it?", category: 4 },
+            { id: 323, text: "What if your project was a spaceship—what's its mission?", category: 4 },
+            { id: 324, text: "Imagine your idea as a river—where does it flow?", category: 4 },
+            { id: 325, text: "How would a chef reinterpret your project?", category: 4 },
+            { id: 326, text: "Turn your idea into a limerick poem.", category: 4 },
+            { id: 327, text: "What if your project was a virus—how does it spread?", category: 4 },
+            { id: 328, text: "Imagine your idea as a mountain—what's at the peak?", category: 4 },
+            { id: 329, text: "How would a musician approach your creative block?", category: 4 },
+            { id: 330, text: "Turn your project into a proverb—what's the wisdom?", category: 4 },
+            { id: 331, text: "What if your idea was a clock—what time does it show?", category: 4 },
+            { id: 332, text: "Imagine your project as a bridge—what does it connect?", category: 4 },
+            { id: 333, text: "How would a philosopher view your idea?", category: 4 },
+            { id: 334, text: "Turn your idea into a fairy tale—what's the magic?", category: 4 },
+            { id: 335, text: "What if your project was a constellation—what's its story?", category: 4 },
+            { id: 336, text: "Imagine your idea as a storm—what's its impact?", category: 4 },
+            { id: 337, text: "How would a dancer express your project?", category: 4 },
+            { id: 338, text: "Turn your idea into a slogan—what's the hook?", category: 4 },
+            { id: 339, text: "What if your project was a gemstone—what's its power?", category: 4 },
+            { id: 340, text: "Imagine your idea as a forest—what lives there?", category: 4 },
+            { id: 341, text: "How would a historian interpret your idea?", category: 4 },
+            { id: 342, text: "Turn your project into a myth—what's the legend?", category: 4 },
+            { id: 343, text: "What if your idea was a shadow—what casts it?", category: 4 },
+            { id: 344, text: "Imagine your project as a volcano—what erupts?", category: 4 },
+            { id: 345, text: "How would a comedian reframe your project?", category: 4 },
+            { id: 346, text: "Turn your idea into a recipe—what's the secret ingredient?", category: 4 },
+            { id: 347, text: "What if your project was a star—what does it shine on?", category: 4 },
+            { id: 348, text: "Imagine your idea as a cave—what's inside?", category: 4 },
+            { id: 349, text: "How would a psychologist analyze your idea?", category: 4 },
+            { id: 350, text: "Turn your project into a dream—what's the symbol?", category: 4 },
+            { id: 351, text: "What if your idea was a wave—what does it crash on?", category: 4 },
+            { id: 352, text: "Imagine your project as a desert—what's the oasis?", category: 4 },
+            { id: 353, text: "How would a teacher explain your idea?", category: 4 },
+            { id: 354, text: "Turn your idea into a mystery—what's the clue?", category: 4 },
+            { id: 355, text: "What if your project was a mirror—what does it reflect?", category: 4 },
+            { id: 356, text: "Imagine your idea as a glacier—what's frozen inside?", category: 4 },
+            { id: 357, text: "How would a journalist report on your project?", category: 4 },
+            { id: 358, text: "Turn your idea into a prophecy—what's foretold?", category: 4 },
+            { id: 359, text: "What if your project was a flame—what does it burn?", category: 4 },
+            { id: 360, text: "Imagine your idea as a swamp—what lurks there?", category: 4 },
+            { id: 361, text: "How would a child imagine your project?", category: 4 },
+            { id: 362, text: "Turn your project into a paradox—what's the contradiction?", category: 4 },
+            { id: 363, text: "What if your idea was a comet—what's its path?", category: 4 },
+            { id: 364, text: "Imagine your project as a meadow—what grows there?", category: 4 },
+            { id: 365, text: "How would a lawyer defend your idea?", category: 4 },
+            { id: 366, text: "Turn your idea into a fable—what's the moral?", category: 4 },
+            { id: 367, text: "What if your project was a whisper—what's the message?", category: 4 },
+            { id: 368, text: "Imagine your idea as a canyon—what carved it?", category: 4 },
+            { id: 369, text: "How would a painter depict your project?", category: 4 },
+            { id: 370, text: "Turn your idea into a song—what's the refrain?", category: 4 },
+            { id: 371, text: "What if your project was a bubble—what's inside?", category: 4 },
+            { id: 372, text: "Imagine your idea as a tundra—what survives there?", category: 4 },
+            { id: 373, text: "How would a scientist experiment with your idea?", category: 4 },
+            { id: 374, text: "Turn your project into a riddle—what's the twist?", category: 4 },
+            { id: 375, text: "What if your idea was a spark—what does it ignite?", category: 4 },
+            { id: 376, text: "Imagine your project as a reef—what lives there?", category: 4 },
+            { id: 377, text: "How would a poet laureate describe your idea?", category: 4 },
+            { id: 378, text: "Turn your idea into a legend—what's the hero?", category: 4 },
+            { id: 379, text: "What if your project was a prism—what colors emerge?", category: 4 },
+            { id: 380, text: "Imagine your idea as a jungle—what's the wildest part?", category: 4 },
+            { id: 381, text: "How would a mathematician model your project?", category: 4 },
+            { id: 382, text: "Turn your idea into a folktale—what's the lesson?", category: 4 },
+            { id: 383, text: "What if your project was a breeze—what does it carry?", category: 4 },
+            { id: 384, text: "Imagine your idea as a cliff—what's at the edge?", category: 4 },
+            { id: 385, text: "How would a filmmaker shoot your project?", category: 4 },
+            { id: 386, text: "Turn your idea into a chant—what's the rhythm?", category: 4 },
+            { id: 387, text: "What if your project was a lens—what does it focus on?", category: 4 },
+            { id: 388, text: "Imagine your idea as a waterfall—what's at the bottom?", category: 4 },
+            { id: 389, text: "How would a therapist explore your idea?", category: 4 },
+            { id: 390, text: "Turn your project into a vision—what's the future?", category: 4 },
+            { id: 391, text: "What if your idea was a tide—what does it bring in?", category: 4 },
+            { id: 392, text: "Imagine your project as a savannah—what roams there?", category: 4 },
+            { id: 393, text: "How would a musician score your idea?", category: 4 },
+            { id: 394, text: "Turn your idea into a parable—what's the teaching?", category: 4 },
+            { id: 395, text: "What if your project was a glow—what emits it?", category: 4 },
+            { id: 396, text: "Imagine your idea as a tundra—what's the silence like?", category: 4 },
+            { id: 397, text: "How would a designer style your project?", category: 4 },
+            { id: 398, text: "Turn your idea into a myth—what's the deity?", category: 4 },
+            { id: 399, text: "What if your project was a ripple—what started it?", category: 4 },
+            { id: 400, text: "Imagine your idea as a galaxy—what's its center?", category: 4 },
+            
+            // Category 5: Look Differently (100 cards)
+            { id: 401, text: "Pitch your idea as if you were on Shark Tank.", category: 5 },
+            { id: 402, text: "Explain it to a 6-year-old. What don't they understand?", category: 5 },
+            { id: 403, text: "Now explain it to a 90-year-old. What changes?", category: 5 },
+            { id: 404, text: "Reimagine it as a physical sculpture.", category: 5 },
+            { id: 405, text: "How would someone from another culture view your idea?", category: 5 },
+            { id: 406, text: "If this idea had a soundtrack, what would it sound like?", category: 5 },
+            { id: 407, text: "Describe your work in the style of a recipe.", category: 5 },
+            { id: 408, text: "Imagine your idea is a product on Amazon. Write its 1-star review.", category: 5 },
+            { id: 409, text: "Interview your project like it's a guest on a podcast.", category: 5 },
+            { id: 410, text: "Give it a tagline. Then rewrite it 5 more creative ways.", category: 5 },
+            { id: 411, text: "How would a chef reinterpret your idea?", category: 5 },
+            { id: 412, text: "Describe your project as a fashion trend.", category: 5 },
+            { id: 413, text: "What if your idea was a viral TikTok challenge?", category: 5 },
+            { id: 414, text: "Pitch your idea to a fictional character.", category: 5 },
+            { id: 415, text: "Imagine your project as a headline in a newspaper.", category: 5 },
+            { id: 416, text: "How would a teacher present your idea to a class?", category: 5 },
+            { id: 417, text: "Describe your work as a weather report.", category: 5 },
+            { id: 418, text: "What if your idea was a board game piece—what's its role?", category: 5 },
+            { id: 419, text: "Interview your idea as if it's a celebrity.", category: 5 },
+            { id: 420, text: "Give your project a movie poster—what's the tagline?", category: 5 },
+            { id: 421, text: "How would a scientist pitch your idea to peers?", category: 5 },
+            { id: 422, text: "Describe your idea as a carnival attraction.", category: 5 },
+            { id: 423, text: "What if your project was a social media trend?", category: 5 },
+            { id: 424, text: "Pitch your idea to a historical figure.", category: 5 },
+            { id: 425, text: "Imagine your project as a breaking news story.", category: 5 },
+            { id: 426, text: "How would a musician describe your idea to fans?", category: 5 },
+            { id: 427, text: "Describe your work as a travel destination.", category: 5 },
+            { id: 428, text: "What if your idea was a collectible item—what's its rarity?", category: 5 },
+            { id: 429, text: "Interview your project as if it's a time traveler.", category: 5 },
+            { id: 430, text: "Give your idea a slogan for a billboard.", category: 5 },
+            { id: 431, text: "How would a poet pitch your idea in verse?", category: 5 },
+            { id: 432, text: "Describe your project as a sports event.", category: 5 },
+            { id: 433, text: "What if your idea was a meme—what's the image?", category: 5 },
+            { id: 434, text: "Pitch your idea to an alien species.", category: 5 },
+            { id: 435, text: "Imagine your project as a front-page article.", category: 5 },
+            { id: 436, text: "How would a comedian present your idea on stage?", category: 5 },
+            { id: 437, text: "Describe your work as a festival event.", category: 5 },
+            { id: 438, text: "What if your project was a viral video—what's the hook?", category: 5 },
+            { id: 439, text: "Interview your idea as if it's a mythical creature.", category: 5 },
+            { id: 440, text: "Give your project a jingle—what's the tune?", category: 5 },
+            { id: 441, text: "How would a dancer pitch your idea through movement?", category: 5 },
+            { id: 442, text: "Describe your idea as a theme park ride.", category: 5 },
+            { id: 443, text: "What if your idea was a hashtag—what's trending?", category: 5 },
+            { id: 444, text: "Pitch your idea to a fairy tale character.", category: 5 },
+            { id: 445, text: "Imagine your project as a tabloid headline.", category: 5 },
+            { id: 446, text: "How would a painter describe your idea on canvas?", category: 5 },
+            { id: 447, text: "Describe your work as a holiday tradition.", category: 5 },
+            { id: 448, text: "What if your project was a viral dance—what's the move?", category: 5 },
+            { id: 449, text: "Interview your idea as if it's a superhero.", category: 5 },
+            { id: 450, text: "Give your project a catchphrase for a TV ad.", category: 5 },
+            { id: 451, text: "How would a filmmaker pitch your idea to a studio?", category: 5 },
+            { id: 452, text: "Describe your idea as a parade float.", category: 5 },
+            { id: 453, text: "What if your idea was a viral challenge—what's the goal?", category: 5 },
+            { id: 454, text: "Pitch your idea to a futuristic AI.", category: 5 },
+            { id: 455, text: "Imagine your project as a gossip column piece.", category: 5 },
+            { id: 456, text: "How would a writer describe your idea in a novel?", category: 5 },
+            { id: 457, text: "Describe your work as a carnival game.", category: 5 },
+            { id: 458, text: "What if your project was a trending app—what's its feature?", category: 5 },
+            { id: 459, text: "Interview your idea as if it's a historical figure.", category: 5 },
+            { id: 460, text: "Give your project a slogan for a radio ad.", category: 5 },
+            { id: 461, text: "How would a photographer pitch your idea through images?", category: 5 },
+            { id: 462, text: "Describe your idea as a festival booth.", category: 5 },
+            { id: 463, text: "What if your idea was a viral sound—what's the clip?", category: 5 },
+            { id: 464, text: "Pitch your idea to a mythical god.", category: 5 },
+            { id: 465, text: "Imagine your project as a clickbait headline.", category: 5 },
+            { id: 466, text: "How would a chef describe your idea on a menu?", category: 5 },
+            { id: 467, text: "Describe your work as a sporting event halftime show.", category: 5 },
+            { id: 468, text: "What if your project was a viral filter—what's the effect?", category: 5 },
+            { id: 469, text: "Interview your idea as if it's a space explorer.", category: 5 },
+            { id: 470, text: "Give your project a tagline for a magazine ad.", category: 5 },
+            { id: 471, text: "How would a musician pitch your idea through lyrics?", category: 5 },
+            { id: 472, text: "Describe your idea as a street performance.", category: 5 },
+            { id: 473, text: "What if your idea was a viral gif—what's the loop?", category: 5 },
+            { id: 474, text: "Pitch your idea to a cartoon character.", category: 5 },
+            { id: 475, text: "Imagine your project as a viral tweet.", category: 5 },
+            { id: 476, text: "How would a designer describe your idea in fashion?", category: 5 },
+            { id: 477, text: "Describe your work as a magic show act.", category: 5 },
+            { id: 478, text: "What if your project was a viral reel—what's the story?", category: 5 },
+            { id: 479, text: "Interview your idea as if it's a famous artist.", category: 5 },
+            { id: 480, text: "Give your project a slogan for a bus ad.", category: 5 },
+            { id: 481, text: "How would a playwright pitch your idea in a script?", category: 5 },
+            { id: 482, text: "Describe your idea as a festival stage show.", category: 5 },
+            { id: 483, text: "What if your idea was a viral trend—what's the dance?", category: 5 },
+            { id: 484, text: "Pitch your idea to a sci-fi character.", category: 5 },
+            { id: 485, text: "Imagine your project as a viral rumor.", category: 5 },
+            { id: 486, text: "How would a sculptor describe your idea in stone?", category: 5 },
+            { id: 487, text: "Describe your work as a street fair stall.", category: 5 },
+            { id: 488, text: "What if your project was a viral hashtag—what's the post?", category: 5 },
+            { id: 489, text: "Interview your idea as if it's a famous inventor.", category: 5 },
+            { id: 490, text: "Give your project a slogan for a subway ad.", category: 5 },
+            { id: 491, text: "How would a choreographer describe your idea in dance?", category: 5 },
+            { id: 492, text: "Describe your work as a pop-up event.", category: 5 },
+            { id: 493, text: "What if your project was a viral soundbite—what's the quote?", category: 5 },
+            { id: 494, text: "Interview your idea as if it's a famous explorer.", category: 5 },
+            { id: 495, text: "Give your project a slogan for a neon sign.", category: 5 },
+            { id: 496, text: "How would a playwright describe your idea in dialogue?", category: 5 },
+            { id: 497, text: "Describe your work as a museum exhibit.", category: 5 },
+            { id: 498, text: "What if your project was a viral challenge—what's the prize?", category: 5 },
+            { id: 499, text: "Interview your idea as if it's a famous scientist.", category: 5 },
+            { id: 500, text: "Give your project a tagline that would stop traffic.", category: 5 }
+        ];
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            let remainingCards = [...allCards];
+            let drawnCards = [];
+            let currentFilter = 'all';
+            
+            // DOM elements
+            const drawButton = document.getElementById('draw-card');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const cardElement = document.querySelector('.card');
+            const cardContent = document.querySelector('.card-content');
+            const cardCategory = document.querySelector('.card-category');
+            const cardNumber = document.querySelector('.card-number');
+            const remainingCount = document.getElementById('remaining-count');
+            const drawnCount = document.getElementById('drawn-count');
+            
+            // Category names
+            const categoryNames = {
+                1: "Reframe It",
+                2: "Shake It Up",
+                3: "Step Out",
+                4: "Mind Stretch",
+                5: "Look Differently"
+            };
+            
+            // Draw a random card
+            function drawCard() {
+                if (remainingCards.length === 0) {
+                    cardContent.textContent = "All cards drawn! Reset to start over.";
+                    cardCategory.textContent = "UNSTUCK";
+                    cardNumber.textContent = "#0/500";
+                    cardElement.setAttribute('data-category', '0');
+                    cardElement.style.display = 'flex';
+                    return;
+                }
+                
+                // Filter cards if needed
+                let eligibleCards = remainingCards;
+                if (currentFilter !== 'all') {
+                    eligibleCards = remainingCards.filter(card => card.category == currentFilter);
+                    
+                    // If no cards left in filtered category, show message
+                    if (eligibleCards.length === 0) {
+                        cardContent.textContent = `No more ${categoryNames[currentFilter]} cards left!`;
+                        cardCategory.textContent = categoryNames[currentFilter];
+                        cardNumber.textContent = `#0/${remainingCards.filter(card => card.category == currentFilter).length}`;
+                        cardElement.setAttribute('data-category', currentFilter);
+                        cardElement.style.display = 'flex';
+                        return;
+                    }
+                }
+                
+                // Get random card
+                const randomIndex = Math.floor(Math.random() * eligibleCards.length);
+                const drawnCard = eligibleCards[randomIndex];
+                
+                // Remove from remaining, add to drawn
+                remainingCards = remainingCards.filter(card => card.id !== drawnCard.id);
+                drawnCards.push(drawnCard);
+                
+                // Update UI
+                cardContent.textContent = drawnCard.text;
+                cardCategory.textContent = categoryNames[drawnCard.category];
+                cardNumber.textContent = `#${drawnCard.id}/500`;
+                cardElement.setAttribute('data-category', drawnCard.category);
+                cardElement.style.display = 'flex';
+                
+                // Animate card
+                cardElement.style.transform = 'rotateY(180deg)';
+                setTimeout(() => {
+                    cardElement.style.transform = 'rotateY(0deg)';
+                }, 500);
+                
+                // Update stats
+                updateStats();
+            }
+            
+            // Update remaining and drawn counts
+            function updateStats() {
+                remainingCount.textContent = currentFilter === 'all' 
+                    ? remainingCards.length 
+                    : remainingCards.filter(card => card.category == currentFilter).length;
+                
+                drawnCount.textContent = currentFilter === 'all' 
+                    ? drawnCards.length 
+                    : drawnCards.filter(card => card.category == currentFilter).length;
+            }
+            
+            // Filter cards by category
+            function filterCards(category) {
+                currentFilter = category;
+                
+                // Update active button
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.category === category) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                // Update stats
+                updateStats();
+                
+                // If there's a current card, hide it if it doesn't match filter
+                if (cardElement.style.display === 'flex' && 
+                    category !== 'all' && 
+                    cardElement.dataset.category !== category) {
+                    cardElement.style.display = 'none';
+                }
+            }
+            
+            // Event listeners
+            drawButton.addEventListener('click', drawCard);
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterCards(this.dataset.category);
+                });
+            });
+            
+            // Initialize
+            updateStats();
+        });
+    </script>
 </body>
 </html>
