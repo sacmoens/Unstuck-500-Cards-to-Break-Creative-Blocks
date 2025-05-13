@@ -245,44 +245,56 @@
         font-family: 'Oswald', sans-serif;
     }
     
-    @media (max-width: 768px) {
+     @media (max-width: 768px) {
+        /* Mobile header adjustments */
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
         }
         
         .subtitle {
-            font-size: 1.1rem;
+            font-size: 1rem;
+            margin-bottom: 15px;
         }
         
+        /* Compact button layout */
         .controls {
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 25px;
+            gap: 6px;
+            margin-bottom: 20px;
         }
         
+        /* Smaller buttons */
         button {
-            padding: 8px 12px;
-            font-size: 0.8rem;
-            flex: 1 1 calc(33% - 8px);
+            padding: 5px 8px;
+            font-size: 0.75rem;
+            flex: 1 1 calc(33% - 6px);
             min-width: 0;
+            letter-spacing: 0.5px;
         }
         
+        /* Draw Card button */
         #draw-card {
             flex: 1 1 100%;
-            font-size: 1.1rem;
-            padding: 10px;
-            order: -1;
+            font-size: 0.9rem;
+            padding: 8px;
+            margin-bottom: 6px;
         }
         
+        /* Portrait card adjustments */
         .card {
             aspect-ratio: 2/3;
-            padding: 20px 15px;
-            max-width: 90%;
+            padding: 15px;
+            max-width: 280px;
         }
         
         .card-content {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        
+        .card-category {
+            font-size: 1rem;
+            padding: 5px 12px;
         }
     }
 </style>
