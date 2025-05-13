@@ -246,55 +246,67 @@
     }
     
      @media (max-width: 768px) {
-        /* Mobile header adjustments */
+        /* Ultra-compact mobile layout */
+        body {
+            padding: 15px 10px;
+        }
+        
         h1 {
-            font-size: 2.2rem;
-            margin-bottom: 8px;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
         }
         
         .subtitle {
-            font-size: 1rem;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Super condensed button grid */
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
             margin-bottom: 15px;
         }
         
-        /* Compact button layout */
-        .controls {
-            gap: 6px;
-            margin-bottom: 20px;
-        }
-        
-        /* Smaller buttons */
+        /* Micro buttons */
         button {
-            padding: 5px 8px;
-            font-size: 0.75rem;
-            flex: 1 1 calc(33% - 6px);
+            padding: 4px 6px;
+            font-size: 0.65rem;
             min-width: 0;
-            letter-spacing: 0.5px;
+            letter-spacing: 0;
         }
         
-        /* Draw Card button */
+        /* Full-width draw card button */
         #draw-card {
-            flex: 1 1 100%;
-            font-size: 0.9rem;
-            padding: 8px;
-            margin-bottom: 6px;
+            grid-column: 1 / -1;
+            font-size: 0.8rem;
+            padding: 6px;
+            margin-bottom: 4px;
         }
         
-        /* Portrait card adjustments */
+        /* Compact card */
         .card {
-            aspect-ratio: 2/3;
-            padding: 15px;
-            max-width: 280px;
+            aspect-ratio: 3/4;
+            padding: 12px;
+            max-width: 260px;
+            max-height: 60vh;
         }
         
         .card-content {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
         }
         
         .card-category {
-            font-size: 1rem;
-            padding: 5px 12px;
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            margin-top: 10px;
+        }
+        
+        .stats {
+            font-size: 0.8rem;
+            margin-top: 15px;
         }
     }
 </style>
