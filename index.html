@@ -115,50 +115,48 @@
     margin: 0 auto;
   }
 
-  .card {
+ .card {
     background: white;
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     aspect-ratio: 2/3;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    max-width: 300px;
+    margin: 0 auto;
     position: relative;
     overflow: hidden;
-    transform-style: preserve-3d;
-    animation: cardAppear 0.6s ease-out forwards;
-  }
+    border-top: 10px solid var(--category-1); /* Default color */
+}
 
-  @keyframes cardAppear {
-    from { transform: translateY(30px) scale(0.95); opacity: 0; }
-    to { transform: translateY(0) scale(1); opacity: 1; }
-  }
+/* Category-specific top borders */
+.card[data-category="1"] { border-top-color: var(--category-1); }
+.card[data-category="2"] { border-top-color: var(--category-2); }
+.card[data-category="3"] { border-top-color: var(--category-3); }
+.card[data-category="4"] { border-top-color: var(--category-4); }
+.card[data-category="5"] { border-top-color: var(--category-5); }
 
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 8px;
-    background: var(--category-1);
-  }
-
-  .card-content {
-    font-size: 1.3rem;
-    margin-bottom: 15px;
+.card-content {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
     line-height: 1.4;
-  }
+    font-family: 'Bubblegum Sans', cursive;
+}
 
-  .card-category {
-    font-size: 0.9rem;
-    padding: 6px 12px;
-    border-radius: 20px;
+.card-category {
+    background: var(--category-1); /* Default */
     color: white;
-    margin-top: 10px;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
     display: inline-block;
-  }
+}
+
+/* Category-specific backgrounds */
+[data-category="1"] .card-category { background: var(--category-1); }
+[data-category="2"] .card-category { background: var(--category-2); }
+[data-category="3"] .card-category { background: var(--category-3); }
+[data-category="4"] .card-category { background: var(--category-4); }
+[data-category="5"] .card-category { background: var(--category-5); }
 
   /* Mobile optimizations */
   @media (max-width: 768px) {
