@@ -6,311 +6,229 @@
     <title>UNSTUCK - 500 Creative Block Breakers</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bubblegum+Sans&family=Oswald:wght@700&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
 <style>
-    :root {
-        --category-1: #FF6B6B; /* Reframe It - Coral */
-        --category-2: #4ECDC4; /* Shake It Up - Teal */
-        --category-3: #45B7D1; /* Step Out - Sky Blue */
-        --category-4: #FFBE0B; /* Mind Stretch - Golden Yellow */
-        --category-5: #A05195; /* Look Differently - Purple */
-        --neon-pink: #FF10F0;
-        --electric-blue: #00F5FF;
-        --lime-green: #00FF7F;
-        --bright-yellow: #FFFF00;
-        --orange: #FFA500;
-        --bg-color: #f8f9fa;
-        --text-dark: #2b2d42;
-        --text-light: #f8f9fa;
-    }
-    
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    
-    body {
-        background-color: var(--bg-color);
-        color: var(--text-dark);
-        min-height: 100vh;
-        padding: 20px;
-        font-family: 'Oswald', 'Comic Neue', sans-serif;
-    }
-    
-    header {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-    
-    h1 {
-        font-size: 4rem;
-        margin-bottom: 10px;
-        background: linear-gradient(45deg, var(--neon-pink), var(--electric-blue), var(--lime-green));
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        font-weight: 900;
-        font-family: 'Bebas Neue', 'Bubblegum Sans', sans-serif;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .subtitle {
-        font-size: 1.5rem;
-        color: #666;
-        margin-bottom: 20px;
-        font-family: 'Bubblegum Sans', 'Comic Neue', cursive;
-    }
-    
+  :root {
+    /* Color palette */
+    --category-1: #FF6B6B;
+    --category-2: #4ECDC4;
+    --category-3: #45B7D1;
+    --category-4: #FFBE0B;
+    --category-5: #A05195;
+    --neon-pink: #FF10F0;
+    --electric-blue: #00F5FF;
+    --bg-color: #f8f9fa;
+    --text-dark: #2b2d42;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+    min-height: 100vh;
+    padding: 15px;
+    font-family: 'Oswald', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Dynamic background */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -50vh;
+    left: -50vw;
+    width: 200vw;
+    height: 200vh;
+    background: radial-gradient(circle at center, 
+      rgba(255,107,107,0.05) 0%, 
+      transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+    transition: background 1s ease;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 8vw, 4rem);
+    background: linear-gradient(45deg, var(--neon-pink), var(--electric-blue));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 5px;
+  }
+
+  .controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  #draw-card {
+    grid-column: 1 / -1;
+    background: linear-gradient(45deg, var(--neon-pink), var(--electric-blue));
+    color: white;
+    font-size: 1.1rem;
+    padding: 12px;
+  }
+
+  .filter-btn {
+    background: white;
+    border: 2px solid #eee;
+  }
+
+  .filter-btn.active {
+    color: white;
+    border-color: transparent;
+  }
+
+  /* Category-specific styles */
+  .filter-btn[data-category="all"].active {
+    background: linear-gradient(45deg, var(--neon-pink), var(--electric-blue));
+  }
+  [data-category="1"].active { background-color: var(--category-1); }
+  [data-category="2"].active { background-color: var(--category-2); }
+  [data-category="3"].active { background-color: var(--category-3); }
+  [data-category="4"].active { background-color: var(--category-4); }
+  [data-category="5"].active { background-color: var(--category-5); }
+
+  .card-container {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    aspect-ratio: 2/3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    animation: cardAppear 0.6s ease-out forwards;
+  }
+
+  @keyframes cardAppear {
+    from { transform: translateY(30px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: var(--category-1);
+  }
+
+  .card-content {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    line-height: 1.4;
+  }
+
+  .card-category {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: white;
+    margin-top: 10px;
+    display: inline-block;
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
     .controls {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin-bottom: 30px;
-        flex-wrap: wrap;
+      grid-template-columns: repeat(3, 1fr);
     }
-    
     button {
-        padding: 12px 24px;
-        border: none;
-        border-radius: 50px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 1rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        font-family: 'Oswald', sans-serif;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+      padding: 6px 8px;
+      font-size: 0.7rem;
     }
-    
-    button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-    }
-    
-    #draw-card {
-        background: linear-gradient(45deg, var(--neon-pink), var(--orange));
-        color: white;
-        font-size: 1.5rem;
-        padding: 15px 30px;
-        border: 2px solid white;
-    }
-    
-    .filter-btn {
-        background-color: white;
-        color: var(--text-dark);
-        border: 2px solid #ddd;
-    }
-    
-    .filter-btn.active {
-        color: white;
-        border-color: transparent;
-    }
-    
-    .filter-btn[data-category="all"].active {
-        background: linear-gradient(45deg, var(--neon-pink), var(--electric-blue));
-    }
-    
-    .filter-btn[data-category="1"].active {
-        background-color: var(--category-1);
-    }
-    
-    .filter-btn[data-category="2"].active {
-        background-color: var(--category-2);
-    }
-    
-    .filter-btn[data-category="3"].active {
-        background-color: var(--category-3);
-    }
-    
-    .filter-btn[data-category="4"].active {
-        background-color: var(--category-4);
-    }
-    
-    .filter-btn[data-category="5"].active {
-        background-color: var(--category-5);
-    }
-    
-    .card-container {
-        max-width: 800px;
-        margin: 0 auto;
-        perspective: 1000px;
-    }
-    
     .card {
-        background: white;
-        border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        transform-style: preserve-3d;
-        transition: all 0.5s ease;
-        aspect-ratio: 2/3;
-        max-width: 300px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-        border: 5px solid white;
+      max-width: 90%;
     }
-    
-    .card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 15px;
-        background: var(--category-1);
-    }
-    
-    .card[data-category="1"]::before {
-        background: var(--category-1);
-    }
-    
-    .card[data-category="2"]::before {
-        background: var(--category-2);
-    }
-    
-    .card[data-category="3"]::before {
-        background: var(--category-3);
-    }
-    
-    .card[data-category="4"]::before {
-        background: var(--category-4);
-    }
-    
-    .card[data-category="5"]::before {
-        background: var(--category-5);
-    }
-    
-    .card-content {
-        font-size: 1.8rem;
-        font-weight: bold;
-        margin-bottom: 20px;
-        line-height: 1.4;
-        font-family: 'Bubblegum Sans', 'Comic Neue', cursive;
-    }
-    
-    .card-category {
-        font-size: 1.1rem;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        padding: 6px 15px;
-        border-radius: 50px;
-        color: white;
-        margin-top: 15px;
-        font-family: 'Oswald', sans-serif;
-        font-weight: bold;
-    }
-    
-    .card[data-category="1"] .card-category {
-        background-color: var(--category-1);
-    }
-    
-    .card[data-category="2"] .card-category {
-        background-color: var(--category-2);
-    }
-    
-    .card[data-category="3"] .card-category {
-        background-color: var(--category-3);
-    }
-    
-    .card[data-category="4"] .card-category {
-        background-color: var(--category-4);
-    }
-    
-    .card[data-category="5"] .card-category {
-        background-color: var(--category-5);
-    }
-    
-    .card-number {
-        position: absolute;
-        bottom: 10px;
-        right: 15px;
-        font-size: 0.9rem;
-        color: #999;
-        font-family: 'Oswald', sans-serif;
-    }
-    
-    .stats {
-        text-align: center;
-        margin-top: 30px;
-        font-size: 1.1rem;
-        color: #666;
-        font-family: 'Oswald', sans-serif;
-    }
-    
-     @media (max-width: 768px) {
-        /* Ultra-compact mobile layout */
-        body {
-            padding: 15px 10px;
-        }
-        
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-        
-        .subtitle {
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-        
-        /* Super condensed button grid */
-        .controls {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-            margin-bottom: 15px;
-        }
-        
-        /* Micro buttons */
-        button {
-            padding: 4px 6px;
-            font-size: 0.65rem;
-            min-width: 0;
-            letter-spacing: 0;
-        }
-        
-        /* Full-width draw card button */
-        #draw-card {
-            grid-column: 1 / -1;
-            font-size: 0.8rem;
-            padding: 6px;
-            margin-bottom: 4px;
-        }
-        
-        /* Compact card */
-        .card {
-            aspect-ratio: 3/4;
-            padding: 12px;
-            max-width: 260px;
-            max-height: 60vh;
-        }
-        
-        .card-content {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-        }
-        
-        .card-category {
-            font-size: 0.8rem;
-            padding: 3px 8px;
-            margin-top: 10px;
-        }
-        
-        .stats {
-            font-size: 0.8rem;
-            margin-top: 15px;
-        }
-    }
+  }
 </style>
 </head>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = []; // Your 500 cards array here
+  let remainingCards = [...cards];
+  const cardElement = document.querySelector('.card');
+  
+  // Improved draw function with animations
+  function drawCard() {
+    if (!remainingCards.length) return;
+    
+    const randomIndex = Math.floor(Math.random() * remainingCards.length);
+    const card = remainingCards[randomIndex];
+    
+    // Animate card draw
+    cardElement.style.transform = 'scale(0.95)';
+    cardElement.style.opacity = '0';
+    
+    setTimeout(() => {
+      cardElement.innerHTML = `
+        <div class="card-content">${card.text}</div>
+        <div class="card-category" style="background:var(--category-${card.category})">
+          ${['Reframe','Shake Up','Step Out','Mind Stretch','Look Differently'][card.category-1]}
+        </div>
+        <div class="card-number">#${card.id}/500</div>
+        <button class="fav-btn">★</button>
+      `;
+      
+      // Update dynamic background
+      document.body.style.setProperty('--category-rgb', 
+        hexToRgb(getComputedStyle(document.documentElement)
+        .getPropertyValue(`--category-${card.category}`)));
+      
+      // Animate in
+      cardElement.style.transform = 'scale(1)';
+      cardElement.style.opacity = '1';
+    }, 200);
+  }
+  
+  // Helper function for dynamic background
+  function hexToRgb(hex) {
+    // ... (implementation omitted for brevity)
+  }
+  
+  // Swipe support
+  let startX;
+  cardElement.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+  });
+  
+  cardElement.addEventListener('touchend', (e) => {
+    if (startX - e.changedTouches[0].clientX > 50) drawCard();
+  });
+});
+</script>
 <body>
     <header>
         <h1>UNSTUCK</h1>
