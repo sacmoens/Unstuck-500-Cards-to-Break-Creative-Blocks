@@ -1,16 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
 
+body {
+    background-color: #f5f5f5;
+    padding: 10px;
+}
 
-document.getElementById('drawButton').addEventListener('click', () => {
-    const cardContainer = document.getElementById('cardContainer');
-    const randomCard = cards[Math.floor(Math.random() * cards.length)];
-    
-    cardContainer.classList.remove('hidden');
-    cardContainer.querySelector('.category-label').textContent = randomCard.category;
-    cardContainer.querySelector('.category-label').style.color = randomCard.color;
-    cardContainer.querySelector('.prompt-title').textContent = randomCard.prompt;
-    cardContainer.querySelector('.subtext').textContent = randomCard.subtext;
-    
-    // Update geometric shape color based on category
-    const shape = cardContainer.querySelector('.geometric-shape');
-    shape.style.background = randomCard.color;
-});
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+h2 {
+    font-size: 1.2rem;
+    color: #444;
+    margin: 20px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-left: 5px solid;
+    position: relative;
+}
+
+.card.spark {
+    border-left-color: #FF4500;
+}
+
+.card.deep-dive {
+    border-left-color: #00CED1;
+}
+
+.card.shake-it-up {
+    border-left-color: #32CD32;
+}
+
+.card.mind-stretch {
+    border-left-color: #FFFF00;
+}
+
+.card.look-differently {
+    border-left-color: #FF00FF;
+}
+
+.card:hover, .card:active {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.card-icon {
+    font-size: 1.5rem;
+}
+
+.card-category {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.card-prompt {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #222;
+    margin-bottom: 5px;
+}
+
+.card-subtext {
+    font-size: 0.9rem;
+    color: #777;
+    font-style: italic;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.3rem;
+    }
+
+    h2 {
+        font-size: 1.1rem;
+    }
+
+    .card {
+        padding: 12px;
+    }
+
+    .card-prompt {
+        font-size: 1rem;
+    }
+
+    .card-subtext {
+        font-size: 0.85rem;
+    }
+}
