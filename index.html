@@ -102,6 +102,32 @@
             color: var(--text-dark);
             border: 2px solid #ddd;
         }
+        /* Existing filter button styles (already in your code) */
+.filter-btn {
+    background-color: white;
+    color: var(--text-dark);
+    border: 2px solid #ddd;
+}
+
+.filter-btn.active {
+    color: white;
+    border-color: transparent;
+}
+
+.filter-btn[data-category="1"].active {
+    background-color: var(--category-1);
+}
+
+/* ADD THIS NEW RULE RIGHT HERE ↓ */
+.filter-btn[data-category="all"].active {
+    background: linear-gradient(45deg, var(--neon-pink), var(--electric-blue));
+    color: white;
+    border-color: transparent;
+}
+/* Continue with existing category buttons... */
+.filter-btn[data-category="2"].active {
+    background-color: var(--category-2);
+}
         
         .filter-btn.active {
             color: white;
