@@ -76,16 +76,23 @@
 
   .filter-btn {
     background: white;
-    border: 2px solid #eee;
+    border: 2px solid var(--category-1); /* Default color */
     color: var(--text-dark);
+    transition: all 0.3s ease;
   }
 
+  /* Individual button border colors */
+  .filter-btn[data-category="1"] { border-color: var(--category-1); }
+  .filter-btn[data-category="2"] { border-color: var(--category-2); }
+  .filter-btn[data-category="3"] { border-color: var(--category-3); }
+  .filter-btn[data-category="4"] { border-color: var(--category-4); }
+  .filter-btn[data-category="5"] { border-color: var(--category-5); }
+
+  /* Active state - filled with color */
   .filter-btn.active {
     color: white;
     border-color: transparent;
   }
-
-  /* ACTIVE FILTER BUTTON COLORS (FIXED) */
   .filter-btn[data-category="all"].active {
     background: linear-gradient(45deg, var(--neon-pink), var(--electric-blue));
   }
