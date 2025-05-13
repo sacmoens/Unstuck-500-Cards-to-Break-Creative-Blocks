@@ -108,38 +108,52 @@
     padding: 20px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     aspect-ratio: 2/3;
-    max-width: 100%;
+    max-width: 300px;
     margin: 0 auto;
     position: relative;
     overflow: hidden;
-    border-top: 10px solid var(--category-1);
-    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* Category-specific card borders */
-  [data-category="1"] { border-top-color: var(--category-1); }
-  [data-category="2"] { border-top-color: var(--category-2); }
-  [data-category="3"] { border-top-color: var(--category-3); }
-  [data-category="4"] { border-top-color: var(--category-4); }
-  [data-category="5"] { border-top-color: var(--category-5); }
-
-  .card-content {
-    font-size: 1.4rem;
-    margin-bottom: 15px;
-    line-height: 1.4;
-    font-family: 'Bubblegum Sans', cursive;
-  }
-
-  .card-category {
-    font-size: 0.9rem;
-    padding: 6px 12px;
-    border-radius: 20px;
-    color: white;
-    display: inline-block;
+  /* Horizontal Category Bar - BOTTOM OF CARD */
+  .card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
     background: var(--category-1);
   }
 
-  /* Category-specific labels */
+  /* Category-specific colors */
+  [data-category="1"]::after { background: var(--category-1); }
+  [data-category="2"]::after { background: var(--category-2); }
+  [data-category="3"]::after { background: var(--category-3); }
+  [data-category="4"]::after { background: var(--category-4); }
+  [data-category="5"]::after { background: var(--category-5); }
+
+  .card-content {
+    font-size: 1.4rem;
+    margin-bottom: auto; /* Pushes category to bottom */
+    line-height: 1.4;
+    padding-bottom: 15px; /* Space above the color bar */
+  }
+
+  /* Category Label (text version) */
+  .card-category {
+    font-size: 0.9rem;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+    background: var(--category-1);
+    align-self: flex-start;
+  }
+
+  /* Category-specific label colors */
   [data-category="1"] .card-category { background: var(--category-1); }
   [data-category="2"] .card-category { background: var(--category-2); }
   [data-category="3"] .card-category { background: var(--category-3); }
@@ -148,36 +162,20 @@
 
   .card-number {
     position: absolute;
-    bottom: 10px;
+    bottom: 15px;
     right: 15px;
     font-size: 0.8rem;
     color: #999;
   }
 
-  /* Mobile optimizations */
+  /* Mobile adjustments */
   @media (max-width: 768px) {
-    .controls {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-    }
-    
-    button {
-      padding: 6px 8px;
-      font-size: 0.7rem;
-    }
-    
-    #draw-card {
-      padding: 10px;
-      font-size: 1rem;
-    }
-    
     .card {
-      padding: 15px;
       max-width: 90%;
+      padding: 15px;
     }
-    
-    .card-content {
-      font-size: 1.2rem;
+    .card::after {
+      height: 6px;
     }
   }
 </style>
