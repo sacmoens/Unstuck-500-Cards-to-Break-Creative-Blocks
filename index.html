@@ -5,362 +5,287 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNSTUCK - 500 Creative Block Breakers</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bubblegum+Sans&family=Oswald:wght@700&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --category-1: #FF6B6B; /* Reframe It - Coral */
-            --category-2: #4ECDC4; /* Shake It Up - Teal */
-            --category-3: #45B7D1; /* Step Out - Sky Blue */
-            --category-4: #FFBE0B; /* Mind Stretch - Golden Yellow */
-            --category-5: #A05195; /* Look Differently - Purple */
-            --neon-pink: #FF10F0;
-            --electric-blue: #00F5FF;
-            --lime-green: #00FF7F;
-            --bright-yellow: #FFFF00;
-            --orange: #FFA500;
-            --bg-color: #f8f9fa;
-            --text-dark: #2b2d42;
-            --text-light: #f8f9fa;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-dark);
-            min-height: 100vh;
-            padding: 20px;
-            font-family: 'Oswald', 'Comic Neue', sans-serif;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        h1 {
-            font-size: 4rem;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, var(--neon-pink), var(--electric-blue), var(--lime-green));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: 900;
-            font-family: 'Bebas Neue', 'Bubblegum Sans', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .subtitle {
-            font-size: 1.5rem;
-            color: #666;
-            margin-bottom: 20px;
-            font-family: 'Bubblegum Sans', 'Comic Neue', cursive;
-        }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
-        
-        #draw-card {
-            background: linear-gradient(45deg, var(--neon-pink), var(--orange));
-            color: white;
-            font-size: 1.5rem;
-            padding: 15px 30px;
-            border: 2px solid white;
-        }
-        
-        .filter-btn {
-            background-color: white;
-            color: var(--text-dark);
-            border: 2px solid #ddd;
-        }
-        /* Existing filter button styles (already in your code) */
-.filter-btn {
-    background-color: white;
-    color: var(--text-dark);
-    border: 2px solid #ddd;
-}
-
-.filter-btn.active {
-    color: white;
-    border-color: transparent;
-}
-
-.filter-btn[data-category="1"].active {
-    background-color: var(--category-1);
-}
-
-/* ADD THIS NEW RULE RIGHT HERE ↓ */
-.filter-btn[data-category="all"].active {
-    background: linear-gradient(45deg, var(--neon-pink), var(--electric-blue));
-    color: white;
-    border-color: transparent;
-}
-/* Continue with existing category buttons... */
-.filter-btn[data-category="2"].active {
-    background-color: var(--category-2);
-}
-        
-        .filter-btn.active {
-            color: white;
-            border-color: transparent;
-        }
-        
-        .filter-btn[data-category="1"].active {
-            background-color: var(--category-1);
-        }
-        
-        .filter-btn[data-category="2"].active {
-            background-color: var(--category-2);
-        }
-        
-        .filter-btn[data-category="3"].active {
-            background-color: var(--category-3);
-        }
-        
-        .filter-btn[data-category="4"].active {
-            background-color: var(--category-4);
-        }
-        
-        .filter-btn[data-category="5"].active {
-            background-color: var(--category-5);
-        }
-        
-        .card-container {
-            max-width: 800px;
-            margin: 0 auto;
-            perspective: 1000px;
-        }
-        
-        .card {
-    background: white;
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transform-style: preserve-3d;
-    transition: all 0.5s ease;
-    aspect-ratio: 3/4; /* NEW: Makes cards portrait-shaped */
-    max-width: 300px; /* NEW: Limits card width */
-    margin: 0 auto; /* NEW: Centers card */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-    border: 5px solid white;
-}
-        
-        
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 15px;
-            background: var(--category-1);
-        }
-        
-        .card[data-category="1"]::before {
-            background: var(--category-1);
-        }
-        
-        .card[data-category="2"]::before {
-            background: var(--category-2);
-        }
-        
-        .card[data-category="3"]::before {
-            background: var(--category-3);
-        }
-        
-        .card[data-category="4"]::before {
-            background: var(--category-4);
-        }
-        
-        .card[data-category="5"]::before {
-            background: var(--category-5);
-        }
-        
-        .card-content {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            line-height: 1.4;
-            font-family: 'Bubblegum Sans', 'Comic Neue', cursive;
-        }
-        
-        .card-category {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            padding: 8px 20px;
-            border-radius: 50px;
-            color: white;
-            margin-top: 20px;
-            font-family: 'Oswald', sans-serif;
-            font-weight: bold;
-        }
-        
-        .card[data-category="1"] .card-category {
-            background-color: var(--category-1);
-        }
-        
-        .card[data-category="2"] .card-category {
-            background-color: var(--category-2);
-        }
-        
-        .card[data-category="3"] .card-category {
-            background-color: var(--category-3);
-        }
-        
-        .card[data-category="4"] .card-category {
-            background-color: var(--category-4);
-        }
-        
-        .card[data-category="5"] .card-category {
-            background-color: var(--category-5);
-        }
-        
-        .card-number {
-            position: absolute;
-            bottom: 15px;
-            right: 20px;
-            font-size: 1rem;
-            color: #999;
-            font-family: 'Oswald', sans-serif;
-        }
-        
-        .stats {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 1.1rem;
-            color: #666;
-            font-family: 'Oswald', sans-serif;
-        }
-        
-        .category-name {
-            font-weight: bold;
-        }
-        
-       @media (max-width: 768px) {
+<style>
+    :root {
+        --category-1: #FF6B6B; /* Reframe It - Coral */
+        --category-2: #4ECDC4; /* Shake It Up - Teal */
+        --category-3: #45B7D1; /* Step Out - Sky Blue */
+        --category-4: #FFBE0B; /* Mind Stretch - Golden Yellow */
+        --category-5: #A05195; /* Look Differently - Purple */
+        --neon-pink: #FF10F0;
+        --electric-blue: #00F5FF;
+        --lime-green: #00FF7F;
+        --bright-yellow: #FFFF00;
+        --orange: #FFA500;
+        --bg-color: #f8f9fa;
+        --text-dark: #2b2d42;
+        --text-light: #f8f9fa;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-dark);
+        min-height: 100vh;
+        padding: 20px;
+        font-family: 'Oswald', 'Comic Neue', sans-serif;
+    }
+    
+    header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
     h1 {
-        font-size: 2.2rem;
+        font-size: 4rem;
+        margin-bottom: 10px;
+        background: linear-gradient(45deg, var(--neon-pink), var(--electric-blue), var(--lime-green));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 900;
+        font-family: 'Bebas Neue', 'Bubblegum Sans', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     }
     
     .subtitle {
-        font-size: 1rem;
-    }
-    
-    /* UPDATED BUTTON LAYOUT */
-    .controls {
-        flex-direction: row; /* Keeps buttons in row */
-        flex-wrap: wrap; /* Allows wrapping */
-        justify-content: center;
-        gap: 8px;
+        font-size: 1.5rem;
+        color: #666;
         margin-bottom: 20px;
-    }
-    
-    button {
-        padding: 6px 12px;
-        font-size: 0.8rem;
-    }
-    
-    #draw-card {
-        padding: 8px 16px;
-        font-size: 1rem;
-    }
-    
-    /* UPDATED CARD STYLE */
-    .card {
-        aspect-ratio: 3/4;
-        padding: 25px 15px;
-        max-width: 90%;
-    }
-    
-    .card-content {
-        font-size: 1.4rem;
-    }
-}
-        }
-        /* ... (keep all your existing CSS above) ... */
-
-/* Update active state for "All Categories" button */
-.filter-btn[data-category="all"].active {
-    background: linear-gradient(45deg, var(--neon-pink), var(--electric-blue));
-    color: white;
-    border-color: transparent;
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2.5rem;
-    }
-    
-    .subtitle {
-        font-size: 1.2rem;
+        font-family: 'Bubblegum Sans', 'Comic Neue', cursive;
     }
     
     .controls {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px; /* Reduced gap */
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
     }
     
     button {
-        padding: 8px 16px; /* Smaller buttons */
-        font-size: 0.9rem;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 50px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        font-family: 'Oswald', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
     }
     
     #draw-card {
-        font-size: 1.1rem;
-        padding: 10px 20px;
+        background: linear-gradient(45deg, var(--neon-pink), var(--orange));
+        color: white;
+        font-size: 1.5rem;
+        padding: 15px 30px;
+        border: 2px solid white;
     }
     
     .filter-btn {
-        padding: 6px 12px; /* Even smaller filter buttons */
+        background-color: white;
+        color: var(--text-dark);
+        border: 2px solid #ddd;
+    }
+    
+    .filter-btn.active {
+        color: white;
+        border-color: transparent;
+    }
+    
+    .filter-btn[data-category="all"].active {
+        background: linear-gradient(45deg, var(--neon-pink), var(--electric-blue));
+    }
+    
+    .filter-btn[data-category="1"].active {
+        background-color: var(--category-1);
+    }
+    
+    .filter-btn[data-category="2"].active {
+        background-color: var(--category-2);
+    }
+    
+    .filter-btn[data-category="3"].active {
+        background-color: var(--category-3);
+    }
+    
+    .filter-btn[data-category="4"].active {
+        background-color: var(--category-4);
+    }
+    
+    .filter-btn[data-category="5"].active {
+        background-color: var(--category-5);
+    }
+    
+    .card-container {
+        max-width: 800px;
+        margin: 0 auto;
+        perspective: 1000px;
     }
     
     .card {
-        padding: 25px 15px;
-        min-height: 220px;
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transform-style: preserve-3d;
+        transition: all 0.5s ease;
+        aspect-ratio: 2/3;
+        max-width: 300px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        border: 5px solid white;
+    }
+    
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 15px;
+        background: var(--category-1);
+    }
+    
+    .card[data-category="1"]::before {
+        background: var(--category-1);
+    }
+    
+    .card[data-category="2"]::before {
+        background: var(--category-2);
+    }
+    
+    .card[data-category="3"]::before {
+        background: var(--category-3);
+    }
+    
+    .card[data-category="4"]::before {
+        background: var(--category-4);
+    }
+    
+    .card[data-category="5"]::before {
+        background: var(--category-5);
     }
     
     .card-content {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        line-height: 1.4;
+        font-family: 'Bubblegum Sans', 'Comic Neue', cursive;
     }
-}
-    </style>
+    
+    .card-category {
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        padding: 6px 15px;
+        border-radius: 50px;
+        color: white;
+        margin-top: 15px;
+        font-family: 'Oswald', sans-serif;
+        font-weight: bold;
+    }
+    
+    .card[data-category="1"] .card-category {
+        background-color: var(--category-1);
+    }
+    
+    .card[data-category="2"] .card-category {
+        background-color: var(--category-2);
+    }
+    
+    .card[data-category="3"] .card-category {
+        background-color: var(--category-3);
+    }
+    
+    .card[data-category="4"] .card-category {
+        background-color: var(--category-4);
+    }
+    
+    .card[data-category="5"] .card-category {
+        background-color: var(--category-5);
+    }
+    
+    .card-number {
+        position: absolute;
+        bottom: 10px;
+        right: 15px;
+        font-size: 0.9rem;
+        color: #999;
+        font-family: 'Oswald', sans-serif;
+    }
+    
+    .stats {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 1.1rem;
+        color: #666;
+        font-family: 'Oswald', sans-serif;
+    }
+    
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+        }
+        
+        .controls {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+        
+        button {
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            flex: 1 1 calc(33% - 8px);
+            min-width: 0;
+        }
+        
+        #draw-card {
+            flex: 1 1 100%;
+            font-size: 1.1rem;
+            padding: 10px;
+            order: -1;
+        }
+        
+        .card {
+            aspect-ratio: 2/3;
+            padding: 20px 15px;
+            max-width: 90%;
+        }
+        
+        .card-content {
+            font-size: 1.4rem;
+        }
+    }
+</style>
 </head>
 <body>
     <header>
