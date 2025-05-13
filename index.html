@@ -246,33 +246,45 @@
             font-weight: bold;
         }
         
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .controls {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .card {
-                padding: 30px 20px;
-                min-height: 250px;
-            }
-            
-            .card-content {
-                font-size: 1.6rem;
-            }
-            
-            #draw-card {
-                font-size: 1.2rem;
-                padding: 12px 24px;
-            }
+       @media (max-width: 768px) {
+    h1 {
+        font-size: 2.2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    /* UPDATED BUTTON LAYOUT */
+    .controls {
+        flex-direction: row; /* Keeps buttons in row */
+        flex-wrap: wrap; /* Allows wrapping */
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+    
+    button {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    
+    #draw-card {
+        padding: 8px 16px;
+        font-size: 1rem;
+    }
+    
+    /* UPDATED CARD STYLE */
+    .card {
+        aspect-ratio: 3/4;
+        padding: 25px 15px;
+        max-width: 90%;
+    }
+    
+    .card-content {
+        font-size: 1.4rem;
+    }
+}
         }
         /* ... (keep all your existing CSS above) ... */
 
