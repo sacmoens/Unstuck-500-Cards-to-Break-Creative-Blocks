@@ -102,7 +102,7 @@
     perspective: 1000px;
   }
 
-  .card {
+ .card {
     background: white;
     border-radius: 15px;
     padding: 20px;
@@ -114,9 +114,12 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    justify-content: center; /* Centers content vertically */
+    align-items: center; /* Centers content horizontally */
+    text-align: center;
   }
 
-  /* Horizontal Category Bar - BOTTOM OF CARD */
+  /* Bottom color bar */
   .card::after {
     content: '';
     position: absolute;
@@ -127,7 +130,7 @@
     background: var(--category-1);
   }
 
-  /* Category-specific colors */
+  /* Category colors */
   [data-category="1"]::after { background: var(--category-1); }
   [data-category="2"]::after { background: var(--category-2); }
   [data-category="3"]::after { background: var(--category-3); }
@@ -135,49 +138,35 @@
   [data-category="5"]::after { background: var(--category-5); }
 
   .card-content {
-    font-size: 1.4rem;
-    margin-bottom: auto; /* Pushes category to bottom */
+    font-size: 1.6rem;
     line-height: 1.4;
-    padding-bottom: 15px; /* Space above the color bar */
+    padding: 0 15px;
+    margin: auto 0; /* Perfect vertical centering */
+    width: 100%;
   }
 
-  /* Category Label (text version) */
   .card-category {
     font-size: 0.9rem;
     color: white;
-    padding: 4px 12px;
-    border-radius: 12px;
-    display: inline-block;
-    margin-bottom: 10px;
+    padding: 5px 15px;
+    border-radius: 15px;
+    margin-top: auto; /* Pushes to bottom */
+    margin-bottom: 15px;
     background: var(--category-1);
-    align-self: flex-start;
-  }
-
-  /* Category-specific label colors */
-  [data-category="1"] .card-category { background: var(--category-1); }
-  [data-category="2"] .card-category { background: var(--category-2); }
-  [data-category="3"] .card-category { background: var(--category-3); }
-  [data-category="4"] .card-category { background: var(--category-4); }
-  [data-category="5"] .card-category { background: var(--category-5); }
-
-  .card-number {
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
-    font-size: 0.8rem;
-    color: #999;
   }
 
   /* Mobile adjustments */
   @media (max-width: 768px) {
     .card {
-      max-width: 90%;
       padding: 15px;
+      max-width: 90%;
     }
-    .card::after {
-      height: 6px;
+    .card-content {
+      font-size: 1.4rem;
+      padding: 0 10px;
     }
   }
+</style>
 </style>
 
 <script>
