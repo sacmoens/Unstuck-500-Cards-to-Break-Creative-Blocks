@@ -85,15 +85,15 @@
     border-color: transparent;
   }
 
-  /* Category button colors */
+  /* ACTIVE FILTER BUTTON COLORS (FIXED) */
   .filter-btn[data-category="all"].active {
     background: linear-gradient(45deg, var(--neon-pink), var(--electric-blue));
   }
-  [data-category="1"].active { background-color: var(--category-1); }
-  [data-category="2"].active { background-color: var(--category-2); }
-  [data-category="3"].active { background-color: var(--category-3); }
-  [data-category="4"].active { background-color: var(--category-4); }
-  [data-category="5"].active { background-color: var(--category-5); }
+  .filter-btn[data-category="1"].active { background-color: var(--category-1); }
+  .filter-btn[data-category="2"].active { background-color: var(--category-2); }
+  .filter-btn[data-category="3"].active { background-color: var(--category-3); }
+  .filter-btn[data-category="4"].active { background-color: var(--category-4); }
+  .filter-btn[data-category="5"].active { background-color: var(--category-5); }
 
   /* Card styles */
   .card-container {
@@ -102,7 +102,7 @@
     perspective: 1000px;
   }
 
- .card {
+  .card {
     background: white;
     border-radius: 15px;
     padding: 20px;
@@ -114,12 +114,11 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centers content vertically */
-    align-items: center; /* Centers content horizontally */
+    justify-content: center;
     text-align: center;
   }
 
-  /* Bottom color bar */
+  /* BOTTOM COLOR BAR (FIXED CATEGORY COLORS) */
   .card::after {
     content: '';
     position: absolute;
@@ -129,30 +128,42 @@
     height: 8px;
     background: var(--category-1);
   }
-
-  /* Category colors */
-  [data-category="1"]::after { background: var(--category-1); }
-  [data-category="2"]::after { background: var(--category-2); }
-  [data-category="3"]::after { background: var(--category-3); }
-  [data-category="4"]::after { background: var(--category-4); }
-  [data-category="5"]::after { background: var(--category-5); }
+  .card[data-category="1"]::after { background: var(--category-1); }
+  .card[data-category="2"]::after { background: var(--category-2); }
+  .card[data-category="3"]::after { background: var(--category-3); }
+  .card[data-category="4"]::after { background: var(--category-4); }
+  .card[data-category="5"]::after { background: var(--category-5); }
 
   .card-content {
     font-size: 1.6rem;
     line-height: 1.4;
     padding: 0 15px;
-    margin: auto 0; /* Perfect vertical centering */
-    width: 100%;
+    margin: auto 0;
+    font-family: 'Bubblegum Sans', cursive;
   }
 
+  /* CATEGORY LABEL (FIXED COLORS) */
   .card-category {
     font-size: 0.9rem;
     color: white;
     padding: 5px 15px;
     border-radius: 15px;
-    margin-top: auto; /* Pushes to bottom */
+    margin-top: auto;
     margin-bottom: 15px;
     background: var(--category-1);
+  }
+  .card[data-category="1"] .card-category { background: var(--category-1); }
+  .card[data-category="2"] .card-category { background: var(--category-2); }
+  .card[data-category="3"] .card-category { background: var(--category-3); }
+  .card[data-category="4"] .card-category { background: var(--category-4); }
+  .card[data-category="5"] .card-category { background: var(--category-5); }
+
+  .card-number {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-size: 0.8rem;
+    color: #999;
   }
 
   /* Mobile adjustments */
@@ -163,10 +174,8 @@
     }
     .card-content {
       font-size: 1.4rem;
-      padding: 0 10px;
     }
   }
-</style>
 </style>
 
 <script>
@@ -186,14 +195,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const cardNumber = document.querySelector('.card-number');
   const drawButton = document.getElementById('draw-card');
   const filterButtons = document.querySelectorAll('.filter-btn');
+  const categoryNames = ["Reframe It", "Shake It Up", "Step Out", "Mind Stretch", "Look Differently"];
   
   let remainingCards = [...allCards];
   let currentFilter = 'all';
-  const categoryNames = ["Reframe It", "Shake It Up", "Step Out", "Mind Stretch", "Look Differently"];
 
   function drawCard() {
     if (remainingCards.length === 0) {
       cardContent.textContent = "All cards drawn!";
+      cardElement.setAttribute('data-category', '0');
       return;
     }
 
